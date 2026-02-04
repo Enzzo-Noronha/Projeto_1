@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/css/style.css" />
+    <title>Sistema de Clientes</title>
+  </head>
+  <body>
+    <div class="principal">
+      <div class="card2">
+        <form id="form" class="form">
+          <input type="text" placeholder="Nome:" id="nomePessoa" />
+          <input type="text" placeholder="Idade:" id="idadePessoa" />
+          <input type="text" placeholder="CPF:" id="cpfPessoa" />
+          <select name="status" id="status">
+            <option value="solteiro">Solteiro</option>
+            <option value="casado">Casado</option>
+            <option value="Viuvo">Viuvo</option>
+          </select>
+          <button type="submit">Enviar</button>
+          <button onclick="limpar()">Limpar</button>
+          <button onclick="apagarDados()" type="button">Apagar Dados</button>
+        </form>
+      </div>
+      <div class="card1">
+        <h1>Informações Armazenadas</h1>
+        <ul id="listaPessoas" class="lista"></ul>
+      </div>
+    </div>
+    <script src="/src/js/modules/index.js"></script>
+  </body>
+</html>
