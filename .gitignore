@@ -1,0 +1,11 @@
+# Dependências
+node_modules/
+
+# Configurações do VS Code
+.vscode/
+
+# Outros arquivos comuns que você pode querer ignorar
+.env
+dist/
+build/
+*.log
