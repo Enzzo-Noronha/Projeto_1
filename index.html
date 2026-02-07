@@ -8,7 +8,8 @@
   </head>
   <body>
     <div class="principal">
-      <div class="card2">
+      <div class="card1">
+        <h1>Inserir Dados</h1>
         <form id="form" class="form">
           <input type="text" placeholder="Nome:" id="nomePessoa" />
           <input type="text" placeholder="Idade:" id="idadePessoa" />
@@ -19,15 +20,27 @@
             <option value="Viuvo">Viuvo</option>
           </select>
           <button type="submit">Enviar</button>
-          <button onclick="limpar()">Limpar</button>
-          <button onclick="apagarDados()" type="button">Apagar Dados</button>
+          <button onclick="limpar()" type="button">Limpar</button>
+          <button id="btnApagar" type="button">Apagar Dados</button>
         </form>
       </div>
       <div class="card1">
         <h1>Informações Armazenadas</h1>
-        <ul id="listaPessoas" class="lista"></ul>
+        <div class="lista">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Cpf</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="listaPessoas"></tbody>
+          </table>
+        </div>
       </div>
     </div>
-    <script src="/src/js/modules/index.js"></script>
+    <script type="module" src="/src/js/modules/index.js"></script>
   </body>
 </html>

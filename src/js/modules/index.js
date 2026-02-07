@@ -11,40 +11,52 @@ if (form) {
       status: document.getElementById("status").value.trim(),
     };
 
+    enviarDados(Pessoa);
     guardaPessoa(Pessoa);
     form.reset();
     mostrarPessoa();
   });
 }
 
+async function enviarDados(Pessoa) {
+  const resposta = await fetch("http://localhost:4000/usuarios", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(Pessoa),
+  });
+
+  const resultado = await resposta.json();
+  alert("Dados enviados com sucesso");
+}
+
+const btnApagar = document
+  .getElementById("btnApagar")
+  .addEventListener("click", apagarDados);
+
 function apagarDados() {
   localStorage.clear();
+  mostrarPessoa();
 }
 
-function guardaPessoa(Pessoa) {
-  const listaAtual = JSON.parse(localStorage.getItem("listaPessoas") || "[]");
-  listaAtual.push(Pessoa);
-  localStorage.setItem("listaPessoas", JSON.stringify(listaAtual));
-}
+async function mostrarPessoa() {
+  const listaPessoas = document.getElementById("listaPessoas");
+  if (!listaPessoas) return;
 
-function mostrarPessoa() {
-  const listaElemento = document.getElementById("listaPessoas");
-  if (!listaElemento) return;
+  // Em vez de ler do localStorage, busca do seu servidor
+  const resposta = await fetch("http://localhost:4000/usuarios");
+  const dados = await resposta.json();
 
-  const dados = JSON.parse(localStorage.getItem("listaPessoas") || "[]");
-  listaElemento.innerHTML = "";
+  listaPessoas.innerHTML = "";
 
   dados.forEach((pessoa) => {
-    const li = document.createElement("li");
-    li.innerHTML = `
-      <div>
-        <strong>Nome:</strong> <span>${pessoa.nome}</span>
-        <strong>Idade:</strong> <span>${pessoa.idade}</span>
-        <strong>Idade:</strong> <span>${pessoa.cpf}</span>
-        <strong>Idade:</strong> <span>${pessoa.status}</span>
-      </div>
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+        <td>${pessoa.nome}</td>
+        <td>${pessoa.idade}</td>
+        <td>${pessoa.cpf}</td>
+        <td>${pessoa.status}</td>
     `;
-    listaElemento.appendChild(li);
+    listaPessoas.appendChild(tr);
   });
 }
 
