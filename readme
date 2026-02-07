@@ -1,1 +1,34 @@
-Teste
+🛠️ Instalação e Execução
+Para rodar este projeto localmente, siga os passos abaixo:
+
+1. Iniciar o projeto Node.js
+   Primeiro, garanta que você iniciou o gerenciador de pacotes na pasta do projeto:
+
+Bash
+npm init -y 2. Instalar as dependências
+Execute o comando abaixo para instalar todas as bibliotecas necessárias que o código utiliza:
+
+Bash
+npm install express sqlite sqlite3 cors 3. Descrição das dependências:
+express: Framework para criar a API e gerenciar rotas.
+
+sqlite: Wrapper que permite usar async/await com o SQLite.
+
+sqlite3: O driver oficial do banco de dados SQLite.
+
+cors: Permite que o seu backend aceite requisições vinda de diferentes origens (ex: um frontend em React ou Vue).
+
+4. Como rodar
+   Após instalar, basta executar o arquivo principal (ex: index.js ou server.js):
+
+Bash
+node nome-do-seu-arquivo.js
+💡 Uma dica de amigo:
+Como você está lidando com banco de dados e rotas, recomendo instalar também o Nodemon como dependência de desenvolvimento. Ele reinicia o servidor automaticamente toda vez que você salvar o código, o que poupa um tempo danado!
+
+Se quiser adicionar, use:
+
+Bash
+npm install -D nodemon
+E no seu package.json, adicione:
+"start": "nodemon nome-do-seu-arquivo.js"
