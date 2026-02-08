@@ -4,7 +4,6 @@ const sqlite3 = require("sqlite3");
 const cors = require("cors");
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
@@ -27,34 +26,11 @@ async function iniciarServidor() {
   `);
 
   app.listen(4000, () => {
-    console.log("Servidor rodando em http://localhost:4000");
+    console.log("🚀 Servidor rodando em http://localhost:4000");
   });
 }
 
 iniciarServidor();
-
-app.post("/usuarios", async (req, res) => {
-  try {
-    const { nome, idade, cpf, status } = req.body;
-
-    if (!nome || !idade || !cpf || !status) {
-      return res.status(400).json({ erro: "Faltam dados no objeto!" });
-    }
-
-    const resultado = await db.run(
-      "INSERT INTO usuarios (nome, idade, cpf, status) VALUES (?, ?, ?, ?)",
-      [nome, idade, cpf, status],
-    );
-
-    res.json({
-      mensagem: "Dados salvos!",
-      id: resultado.lastID,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ erro: "Erro interno no servidor" });
-  }
-});
 
 app.get("/usuarios", async (req, res) => {
   try {
@@ -62,5 +38,57 @@ app.get("/usuarios", async (req, res) => {
     res.json(lista);
   } catch (error) {
     res.status(500).json({ erro: "Erro ao buscar usuários" });
+  }
+});
+
+app.post("/usuarios", async (req, res) => {
+  try {
+    const { nome, idade, cpf, status } = req.body;
+    const resultado = await db.run(
+      "INSERT INTO usuarios (nome, idade, cpf, status) VALUES (?, ?, ?, ?)",
+      [nome, idade, cpf, status],
+    );
+    res.json({ mensagem: "Dados salvos!", id: resultado.lastID });
+  } catch (error) {
+    res.status(500).json({ erro: "Erro interno no servidor" });
+  }
+});
+
+app.put("/usuarios/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nome, idade, cpf, status } = req.body;
+
+    const resultado = await db.run(
+      "UPDATE usuarios SET nome = ?, idade = ?, cpf = ?, status = ? WHERE id = ?",
+      [nome, idade, cpf, status, id],
+    );
+
+    if (resultado.changes === 0) {
+      return res.status(404).json({ erro: "Usuário não encontrado" });
+    }
+    res.json({ mensagem: "Usuário atualizado com sucesso!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ erro: "Erro ao atualizar no banco" });
+  }
+});
+
+app.delete("/usuarios/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await db.run("DELETE FROM usuarios WHERE id = ?", [id]);
+    res.json({ mensagem: "Usuário removido!" });
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao excluir" });
+  }
+});
+
+app.delete("/usuarios", async (req, res) => {
+  try {
+    await db.run("DELETE FROM usuarios");
+    res.json({ mensagem: "Banco limpo com sucesso!" });
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao limpar banco" });
   }
 });
